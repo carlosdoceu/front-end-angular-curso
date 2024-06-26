@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HttpClient } from '@angular/common/http';
-
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDialogModule} from '@angular/material/dialog';
 @NgModule({
   declarations: [],
   imports: [
@@ -18,7 +18,9 @@ import { HttpClient } from '@angular/common/http';
     MatIconModule,
     MatTableModule,
     MatToolbarModule,
-    
+    MatProgressSpinnerModule,
+    MatDialogModule
+
   ]
 })
 export class AppMaterialModule { }
