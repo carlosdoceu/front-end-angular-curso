@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { AppMaterialModule } from './app-material/app-material.module';
+import { CategoryPipe } from './pipes/category.pipe';
+
 
 
 
@@ -9,6 +11,7 @@ import { AppMaterialModule } from './app-material/app-material.module';
   // declarações dos componentes
   declarations: [
     ErrorDialogComponent,
+    CategoryPipe
 
   ],
   // importações dos módulos
@@ -17,7 +20,9 @@ import { AppMaterialModule } from './app-material/app-material.module';
     AppMaterialModule,
   ],
    exports: [
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    CategoryPipe
+
    ]
 })
 export class SharedModule { }

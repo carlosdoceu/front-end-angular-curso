@@ -17,7 +17,7 @@ export class CoursesService {
     .pipe(
       // take(1),//assim que o servidor me enviar uma resposta, encerra a conexão
       first(), // interessado apenas a primeira resposta
-      delay(5000), // espera 1 segundo
+      delay(1000), // espera 1 segundo
       tap(courses => console.log(courses))
     );
    }
