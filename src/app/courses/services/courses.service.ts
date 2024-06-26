@@ -8,7 +8,7 @@ import { delay, first, take, tap } from 'rxjs/operators'; // Certifique-se de im
 })
 export class CoursesService {
 
-  private readonly API = 'assets/acourses.json'; // Caminho correto
+  private readonly API = 'assets/courses.json'; // Caminho correto
 
   constructor(private httpClient: HttpClient) { }
 
