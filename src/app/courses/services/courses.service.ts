@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Course } from '../model/course';
+import { Course } from '../model/courseModel';
 import { HttpClient } from '@angular/common/http';
 import { delay, first, take, tap } from 'rxjs/operators'; // Certifique-se de importar corretamente
 
@@ -8,7 +8,7 @@ import { delay, first, take, tap } from 'rxjs/operators'; // Certifique-se de im
 })
 export class CoursesService {
 
-  private readonly API = 'assets/courses.json'; // Caminho correto
+  private readonly API = 'api/courses'; // Caminho correto
 
   constructor(private httpClient: HttpClient) { }
 
@@ -20,5 +20,12 @@ export class CoursesService {
       delay(1000), // espera 1 segundo
       tap(courses => console.log(courses))
     );
+   }
+
+
+   save(course:Course){
+     return this.httpClient.post<Course>(this.API, course).pipe(
+      first() // interessado apenas a primeira resposta
+     );
    }
 }
