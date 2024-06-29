@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, NonNullableFormBuilder, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { CoursesService } from '../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
@@ -11,23 +11,29 @@ import { Location } from '@angular/common';
   styleUrl: './courses-form.component.scss',
 })
 export class CoursesFormComponent implements OnInit {
-  form: FormGroup;
+  // form: FormGroup;
+
 
   constructor(
     private service: CoursesService,
-    private formBuilder: FormBuilder,
+    private formBuilder: NonNullableFormBuilder,
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location
   ) {
-    this.form = this.formBuilder.group({
-      name: [null],
-      category: [null],
-    });
+
   }
 
-  ngOnInit(): void {}
+  form = this.formBuilder.group({
+    name: [''],
+    category: [''],
+  });
+
+
+  ngOnInit(): void {
+
+  }
 
   onBack() {
     this.location.back()
@@ -39,6 +45,7 @@ export class CoursesFormComponent implements OnInit {
   }
 
   onSubmit() {
+    
     this.service.save(this.form.value).subscribe(
       (result) =>{
         this.onBack();

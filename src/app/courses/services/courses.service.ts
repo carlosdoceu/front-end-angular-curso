@@ -23,7 +23,7 @@ export class CoursesService {
    }
 
 
-   save(course:Course){
+   save(course:Partial<Course>){ // course é um objeto parcial, não é uma instância de Course , ou seja, posso aceitar um objeto parcial desde que ele tenha um dos campos do model
      return this.httpClient.post<Course>(this.API+'/create', course).pipe(
       first() // interessado apenas a primeira resposta
      );
