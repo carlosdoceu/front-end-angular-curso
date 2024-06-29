@@ -38,7 +38,9 @@ export class CoursesFormComponent implements OnInit {
 
   onSubmit() {
     this.service.save(this.form.value).subscribe(
-      (result) => console.log(result),
+      (result) =>
+      this.router.navigate(['/courses']),
+
       (error) => this.onError());
   }
 }

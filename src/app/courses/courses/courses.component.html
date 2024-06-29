@@ -28,20 +28,23 @@
       <!-- Acoes -->
       <ng-container matColumnDef="acoes">
         <mat-header-cell *matHeaderCellDef>
-          <button (click)="OnAdd()" mat-fab>
+          <button style="width: 25%; margin: 1em;" (click)="OnAdd()" mat-fab>
             <mat-icon >add</mat-icon>
           </button>
         </mat-header-cell>
 
-        <mat-cell *matCellDef="let course"  >
-          <button mat-flat-button aria-label="Editar curso" color="primary">
-            <mat-icon>edit</mat-icon>
-          </button>
+        <div class="my-25em">
+          <mat-cell *matCellDef="let course"  >
+            <button mat-flat-button aria-label="Editar curso" color="primary">
+              <mat-icon>edit</mat-icon>
+            </button>
 
-          <button mat-flat-button aria-label="Excluir curso" color="warn"><!-- color="warn" para mostrar em vermelho -->
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-cell>
+            <button mat-flat-button aria-label="Excluir curso" color="warn"><!-- color="warn" para mostrar em vermelho -->
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+        </div>
+
 
 
       </ng-container>
