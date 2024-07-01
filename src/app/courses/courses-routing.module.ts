@@ -5,15 +5,21 @@ import { CoursesFormComponent } from './containers/courses-form/courses-form.com
 
 const routes: Routes = [
   {
-    path:'' , component:CoursesComponent
+    path: '', //path vai ser a raiz da rota
+    component: CoursesComponent,
   },
   {
-    path:'new' , component:CoursesFormComponent
+    path: 'new',
+    component: CoursesFormComponent,
+  },
+  {
+    path: 'edit/:id', //'id' é uma variável que recebe o id do curso
+    component: CoursesFormComponent,
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CoursesRoutingModule { }
+export class CoursesRoutingModule {}
