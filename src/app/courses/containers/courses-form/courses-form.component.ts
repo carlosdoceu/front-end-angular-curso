@@ -11,6 +11,7 @@ import {
 import { CoursesService } from '../../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
+import { Course } from '../../model/courseModel';
 
 @Component({
   selector: 'app-courses-form',
@@ -25,16 +26,27 @@ export class CoursesFormComponent implements OnInit {
     private formBuilder: NonNullableFormBuilder,
     private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute,
+    private ActivatedRoute: ActivatedRoute,
     private location: Location
   ) {}
 
   form = this.formBuilder.group({
+    _id: [''],
     name: [''],
     category: [''],
   });
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const course:Course = this.ActivatedRoute.snapshot.data['course'];
+    // console.log(course);
+    this.form.setValue({ // seta os valores do form com os valores do objeto course
+      _id: course._id,
+      name: course.name,
+      category: course.category,
+    });
+  }
+
+
 
   onBack() {
     this.location.back();
