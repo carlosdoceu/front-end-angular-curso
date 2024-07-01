@@ -1,9 +1,9 @@
-import { CoursesService } from './../services/courses.service';
+import { CoursesService } from '../../services/courses.service';
 import { Component, OnInit } from '@angular/core';
-import { Course } from '../model/courseModel';
+import { Course } from '../../model/courseModel';
 import { Observable, catchError, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
