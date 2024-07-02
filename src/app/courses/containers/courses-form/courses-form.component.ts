@@ -12,6 +12,7 @@ import { CoursesService } from '../../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 import { Course } from '../../model/courseModel';
+import { error } from 'console';
 
 @Component({
   selector: 'app-courses-form',
@@ -57,15 +58,25 @@ export class CoursesFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.service.save(this.form.value).subscribe(
-      (result) => {
-        this.onBack();
+    // significa que o subscribe é uma função que recebe um callback como parametro e não um Observable como parametro como no subscribe(next)
+    this.service.save(this.form.value).subscribe({
+      next: (result) => {
+        this.onSuccess();
       },
-
-      (error) => {
+      error: (error) => {
         this.onError();
       }
-    );
+    });
+
+    // this.service.save(this.form.value).subscribe(
+    //   (result) => {
+    //     this.onBack();
+    //   },
+
+    //   (error) => {
+    //     this.onError();
+    //   }
+    // );
   }
 
   onSuccess() {
