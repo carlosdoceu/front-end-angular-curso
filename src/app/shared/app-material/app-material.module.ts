@@ -36,7 +36,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSelectModule,
     MatSnackBarModule,
 
-    
+
   ]
 })
 export class AppMaterialModule { }

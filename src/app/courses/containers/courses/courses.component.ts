@@ -7,6 +7,7 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-courses',
@@ -14,9 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './courses.component.scss',
 })
 export class CoursesComponent implements OnInit {
-
-
-  courses$: Observable<Course[]> | null = null ;
+  courses$: Observable<Course[]> | null = null;
   // coursesService: CoursesService;
 
   constructor(
@@ -27,9 +26,7 @@ export class CoursesComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.refresh();
-
   }
-
 
   refresh() {
     this.courses$ = this.coursesService.list().pipe(
@@ -61,22 +58,28 @@ export class CoursesComponent implements OnInit {
   }
 
   OnDelete(course: Course) {
-    this.coursesService.deleteCourse(course._id).subscribe({
-      next: (sucess) => {
-
-        this.snackBar.open('Curso deletado com sucesso', 'close', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
-        }
-
-      );
-      this.refresh();
-
-      },
-      error: (error) => {
-        this.onError('Erro ao deletar curso');
-      },
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Tem certeza que deseja excluir o curso?',
     });
+
+    dialogRef.afterClosed().subscribe((result:boolean) => {
+      if(result){
+        this.coursesService.deleteCourse(course._id).subscribe({
+          next: (sucess) => {
+            this.snackBar.open('Curso deletado com sucesso', 'close', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            });
+            this.refresh();
+          },
+          error: (error) => {
+            this.onError('Erro ao deletar curso');
+          },
+        });
+      }
+    });
+
+
   }
 }
