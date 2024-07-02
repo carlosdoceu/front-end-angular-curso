@@ -6,7 +6,7 @@
         <input formControlName="name" matInput placeholder="Nome"
         required/>
         <!-- erro de validação funciona da seguinte forma: se o erro for invalid, exibe o erroMessage  se não for invalid, não exibe nenhum erro   -->
-        <mat-hint align="end">{{form.get('name')?.value?.length}}/100</mat-hint>
+        <mat-hint align="end">{{form.get('name')?.value?.length || 0}}/100</mat-hint>
         <mat-error *ngIf="form.get('name')?.invalid" >{{errorMessage('name')}}</mat-error>
 
       </mat-form-field>
