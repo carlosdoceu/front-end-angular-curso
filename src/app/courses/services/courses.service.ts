@@ -24,12 +24,30 @@ export class CoursesService {
 
 
    save(course:Partial<Course>){ // course é um objeto parcial, não é uma instância de Course , ou seja, posso aceitar um objeto parcial desde que ele tenha um dos campos do model
-     return this.httpClient.post<Course>(this.API+'/create', course).pipe(
-      first() // interessado apenas a primeira resposta
-     );
+    if(course._id){
+      return this.update(course);
+    }
+    return this.create(course);
+
    }
 
+
+   private create(course:Partial<Course>){ // course é um objeto parcial, não é uma instância de Course , ou seja, posso aceitar um objeto parcial desde que ele tenha um dos campos do model
+    return this.httpClient.post<Course>(this.API+'/create', course).pipe(
+      first() // interessado apenas a primeira resposta
+    );
+  }
+
+  private update(course:Partial<Course>){ // course é um objeto parcial, não é uma instância de Course , ou seja, posso aceitar um objeto parcial desde que ele tenha um dos campos do model
+    return this.httpClient.put<Course>(`${this.API}/update/${course._id}`, course)
+  }
+
    loadById(id:string){
-    return this.httpClient.get<Course>(`${this.API}/buscarcurso/${id}`)
+    return this.httpClient.get<Course>(`${this.API}/read/${id}`)
+     }
+
+
+     editCourse(course:Course){
+      // return this.httpClient.put<Course>()
      }
 }
