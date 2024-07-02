@@ -33,7 +33,7 @@
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-mini-fab aria-label="Excluir curso" color="warn"><!-- color="warn" para mostrar em vermelho -->
+        <button (click)="OnDelete(course)" mat-mini-fab aria-label="Excluir curso" color="warn"><!-- color="warn" para mostrar em vermelho -->
           <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>

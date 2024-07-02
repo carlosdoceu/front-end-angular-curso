@@ -39,15 +39,20 @@ export class CoursesService {
   }
 
   private update(course:Partial<Course>){ // course é um objeto parcial, não é uma instância de Course , ou seja, posso aceitar um objeto parcial desde que ele tenha um dos campos do model
-    return this.httpClient.put<Course>(`${this.API}/update/${course._id}`, course)
+    return this.httpClient.put<Course>(`${this.API}/update/${course._id}`, course);
   }
 
    loadById(id:string){
-    return this.httpClient.get<Course>(`${this.API}/read/${id}`)
+    return this.httpClient.get<Course>(`${this.API}/read/${id}`);
      }
 
 
      editCourse(course:Course){
       // return this.httpClient.put<Course>()
+     }
+
+
+     deleteCourse(id:string){
+      return this.httpClient.delete(`${this.API}/delete/${id}`);
      }
 }

@@ -52,6 +52,11 @@ export class CoursesFormComponent implements OnInit {
   onBack() {
     this.location.back();
   }
+  
+  onSuccess() {
+    this.snackBar.open('Curso salvo com sucesso', 'close', { duration: 3000 });
+    this.onBack();
+  }
 
   onError() {
     this.snackBar.open('Erro', 'close', { duration: 3000 });
@@ -79,8 +84,5 @@ export class CoursesFormComponent implements OnInit {
     // );
   }
 
-  onSuccess() {
-    this.snackBar.open('Curso salvo com sucesso', 'close', { duration: 3000 });
-    this.onBack();
-  }
+
 }
