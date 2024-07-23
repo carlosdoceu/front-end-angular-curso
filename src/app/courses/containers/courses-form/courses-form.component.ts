@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 import { Course } from '../../model/courseModel';
 import { error } from 'console';
+import { Lesson } from '../../model/lesson';
 
 @Component({
   selector: 'app-courses-form',
@@ -31,26 +32,25 @@ export class CoursesFormComponent implements OnInit {
     private location: Location
   ) {}
 
-  form = this.formBuilder.group({
-    _id: [''],
-    name: [
-      '',
-      [Validators.required, Validators.minLength(5), Validators.maxLength(100)],
-    ],
-    category: ['', [Validators.required]],
-  });
+
+
+  form!:FormGroup; // "!" permite inicializar o formulario mas declarar a variavel sem precisar declarar imediatamente
+
 
   ngOnInit(): void {
-    const course: Course = this.ActivatedRoute.snapshot.data['course'];
-    // console.log(course);
-    this.form.setValue({
-      // seta os valores do form com os valores do objeto course
-      _id: course._id,
-      name: course.name,
-      category: course.category,
+    const course: Course = this.ActivatedRoute.snapshot.data['course'];// o snapshot é o objeto que contém os dados passados pelo router
+
+    this.form = this.formBuilder.group({
+      _id: [course._id],
+      name: [course.name, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      category: [course.category, [Validators.required]],
+      lessons: this.formBuilder.array(this.obterLessons(course))
     });
 
-    console.log(course);
+
+
+    console.log(this.form);
+    console.log(this.form.value);
   }
 
   onBack() {
@@ -96,15 +96,11 @@ export class CoursesFormComponent implements OnInit {
       return 'Campo obrigatório';
     }
     if (field?.hasError('minlength')) {
-      const requiredLength: number = field.errors
-        ? field.errors['minlength']['requiredLength']
-        : 5;
+      const requiredLength: number = field.errors ? field.errors['minlength']['requiredLength']: 5;
       return `O campo deve ter no mínimo ${requiredLength} caracteres`;
     }
     if (field?.hasError('maxlength')) {
-      const requiredLength = field.errors
-        ? field.errors['maxlength']['requiredLength']
-        : 5;
+      const requiredLength = field.errors? field.errors['maxlength']['requiredLength']: 5;
       return `O campo deve ter no maximo ${requiredLength} caracteres`;
     }
 
@@ -112,4 +108,26 @@ export class CoursesFormComponent implements OnInit {
   }
 
   updateErrorMessage() {}
+
+  private obterLessons(course:Course){
+    const lessons  = [];
+    if(course?.lessons){
+      course.lessons.forEach(lesson => lessons.push(this.creatLesson(lesson)));
+
+    }else{
+      lessons.push(this.creatLesson());
+
+    }
+
+    return lessons
+  }
+
+  private creatLesson(lesson:Lesson = {id:'',name:'',youtubeURL:''}){ // o trecho ={id:'',name:'',youtubeURL:''} serve para inicializar o objeto com valores padrões para os campos
+    return  this.formBuilder.group({
+      id:[lesson.id],
+      name:[lesson.name],
+      youtubeURL:[lesson.youtubeURL],
+    });
+  }
+
 }
