@@ -21,7 +21,16 @@
         </mat-select>
         <mat-error *ngIf="form.get('category')?.invalid" >{{errorMessage('category')}}</mat-error>
       </mat-form-field>
+
+
+      <mat-toolbar>
+        <span>Lessons</span>
+        <button mat-fab><mat-icon>add</mat-icon></button>
+      </mat-toolbar>
+
     </form>
+
+
 
 
 

@@ -13,5 +13,5 @@ export const courseResolver: ResolveFn<Observable<Course>> = (route, state,  ser
   if (route.params?.['id']){//se o parâmetro id existir, então ele é uma rota válida
     return service.loadById(route.params['id']);//retorna o objeto do tipo course
   }
-  return of({_id: '', name: '', category: ''});//se o parâmetro id não existir, retorna um objeto vazio
+  return of({_id: '', name: '', category: '', lessons:[]});//se o parâmetro id não existir, retorna um objeto vazio
 };

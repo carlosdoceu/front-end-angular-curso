@@ -49,6 +49,8 @@ export class CoursesFormComponent implements OnInit {
       name: course.name,
       category: course.category,
     });
+
+    console.log(course);
   }
 
   onBack() {
@@ -90,25 +92,24 @@ export class CoursesFormComponent implements OnInit {
     const field = this.form.get(fieldName);
     const fieldCategory = this.form.get('category');
 
-    if(field?.hasError("required")){
+    if (field?.hasError('required')) {
       return 'Campo obrigatório';
     }
-     if(field?.hasError('minlength')){
-      const requiredLength:number = field.errors?field.errors['minlength']['requiredLength'] : 5;
+    if (field?.hasError('minlength')) {
+      const requiredLength: number = field.errors
+        ? field.errors['minlength']['requiredLength']
+        : 5;
       return `O campo deve ter no mínimo ${requiredLength} caracteres`;
     }
-    if(field?.hasError("maxlength")){
-      const requiredLength = field.errors? field.errors['maxlength']['requiredLength'] : 5;
+    if (field?.hasError('maxlength')) {
+      const requiredLength = field.errors
+        ? field.errors['maxlength']['requiredLength']
+        : 5;
       return `O campo deve ter no maximo ${requiredLength} caracteres`;
     }
-
 
     return 'Campo inválido';
   }
 
-  updateErrorMessage() {
-
-
-
-  }
+  updateErrorMessage() {}
 }
