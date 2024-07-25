@@ -1,27 +1,26 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormGroup,
   NonNullableFormBuilder,
-  UntypedFormBuilder,
-  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { CoursesService } from '../../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 import { Course } from '../../model/courseModel';
-import { error } from 'console';
 import { Lesson } from '../../model/lesson';
 
 @Component({
   selector: 'app-courses-form',
   templateUrl: './courses-form.component.html',
-  styleUrl: './courses-form.component.scss',
+  styleUrls: ['./courses-form.component.scss'],
 })
 export class CoursesFormComponent implements OnInit {
-  // form: FormGroup;
+
+  form!: FormGroup;
 
   constructor(
     private service: CoursesService,
@@ -32,13 +31,8 @@ export class CoursesFormComponent implements OnInit {
     private location: Location
   ) {}
 
-
-
-  form!:FormGroup; // "!" permite inicializar o formulario mas declarar a variavel sem precisar declarar imediatamente
-
-
   ngOnInit(): void {
-    const course: Course = this.ActivatedRoute.snapshot.data['course'];// o snapshot é o objeto que contém os dados passados pelo router
+    const course: Course = this.ActivatedRoute.snapshot.data['course'];
 
     this.form = this.formBuilder.group({
       _id: [course._id],
@@ -46,11 +40,6 @@ export class CoursesFormComponent implements OnInit {
       category: [course.category, [Validators.required]],
       lessons: this.formBuilder.array(this.obterLessons(course))
     });
-
-
-
-    console.log(this.form);
-    console.log(this.form.value);
   }
 
   onBack() {
@@ -67,67 +56,53 @@ export class CoursesFormComponent implements OnInit {
   }
 
   onSubmit() {
-    // significa que o subscribe é uma função que recebe um callback como parametro e não um Observable como parametro como no subscribe(next)
     this.service.save(this.form.value).subscribe({
-      next: (result) => {
-        this.onSuccess();
-      },
-      error: (error) => {
-        this.onError();
-      },
+      next: () => this.onSuccess(),
+      error: () => this.onError(),
     });
-
-    // this.service.save(this.form.value).subscribe(
-    //   (result) => {
-    //     this.onBack();
-    //   },
-
-    //   (error) => {
-    //     this.onError();
-    //   }
-    // );
   }
 
   errorMessage(fieldName: string) {
     const field = this.form.get(fieldName);
-    const fieldCategory = this.form.get('category');
 
     if (field?.hasError('required')) {
       return 'Campo obrigatório';
     }
     if (field?.hasError('minlength')) {
-      const requiredLength: number = field.errors ? field.errors['minlength']['requiredLength']: 5;
+      const requiredLength: number = field.errors ? field.errors['minlength']['requiredLength'] : 5;
       return `O campo deve ter no mínimo ${requiredLength} caracteres`;
     }
     if (field?.hasError('maxlength')) {
-      const requiredLength = field.errors? field.errors['maxlength']['requiredLength']: 5;
-      return `O campo deve ter no maximo ${requiredLength} caracteres`;
+      const requiredLength = field.errors ? field.errors['maxlength']['requiredLength'] : 100;
+      return `O campo deve ter no máximo ${requiredLength} caracteres`;
     }
 
     return 'Campo inválido';
   }
 
-  updateErrorMessage() {}
-
-  private obterLessons(course:Course){
-    const lessons  = [];
-    if(course?.lessons){
-      course.lessons.forEach(lesson => lessons.push(this.creatLesson(lesson)));
-
-    }else{
-      lessons.push(this.creatLesson());
-
+  private obterLessons(course: Course): FormGroup[] {
+    const lessons = [];
+    if (course?.lessons) {
+      course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)));
+    } else {
+      lessons.push(this.createLesson());
     }
-
-    return lessons
+    return lessons;
   }
 
-  private creatLesson(lesson:Lesson = {id:'',name:'',youtubeURL:''}){ // o trecho ={id:'',name:'',youtubeURL:''} serve para inicializar o objeto com valores padrões para os campos
-    return  this.formBuilder.group({
-      id:[lesson.id],
-      name:[lesson.name],
-      youtubeURL:[lesson.youtubeURL],
+  private createLesson(lesson: Lesson = { id: '', name: '', youtubeURL: '' }): FormGroup {
+    return this.formBuilder.group({
+      id: [lesson.id],
+      name: [lesson.name, Validators.required],
+      youtubeURL: [lesson.youtubeURL]
     });
   }
 
+  getLessonsFormArray(): FormArray {
+    return this.form.get('lessons') as FormArray;
+  }
+
+  addLessons() {
+    this.getLessonsFormArray().push(this.createLesson());
+  }
 }
